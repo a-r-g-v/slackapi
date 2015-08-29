@@ -26,4 +26,18 @@ defmodule SlackAPI.API.Base do
     System.halt(1)
   end
 
+  def concat_options(url, options) do
+    args = parse_options(options)
+    if String.contains? url, "?" do
+      url <> "&" <> args
+    else
+      url <> "?" <> args
+    end
+  end
+
+  def parse_options(options) do
+    Enum.map(options, fn {k, v} -> List.to_string(k) <> "=" <> List.to_string(v) end)
+    |> Enum.join "&"
+  end
+
 end
